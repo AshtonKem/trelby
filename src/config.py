@@ -1348,7 +1348,13 @@ class ConfigGui:
             # against that.
             if s:
                 nfi = wx.NativeFontInfo()
-                nfi.FromString(s)
+		#FromString was causing wx.FontFromNativeInfo to blow up below.
+		#This was because FromString expected a machine representation, and couldn't parse
+		#"Monospace 12". I'm not sure if this is a Mac specific difference yet.
+		if misc.isMac:
+		    nfi.FromUserString(s)
+		else:
+                    nfi.FromString(s)
                 nfi.SetEncoding(wx.FONTENCODING_ISO8859_1)
 
                 fi.font = wx.FontFromNativeInfo(nfi)
