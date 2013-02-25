@@ -15,7 +15,7 @@ TAB_BAR_HEIGHT = 24
 version = "2.3-dev"
 
 def init(doWX = True):
-    global isWindows, isUnix, unicodeFS, wxIsUnicode, doDblBuf, \
+    global isWindows, isMac, isUnix, unicodeFS, wxIsUnicode, doDblBuf, \
            progPath, confPath, tmpPrefix
 
     # prefix used for temp files
@@ -23,9 +23,14 @@ def init(doWX = True):
 
     isWindows = False
     isUnix = False
+    isMac = False
 
     if wx.Platform == "__WXMSW__":
         isWindows = True
+    elif wx.Platform == "__WXMAC__":
+	#Technically macs are unix. We'll see how different our needs for OSX & Linux are.
+	isUnix = True
+	isMac = True
     else:
         isUnix = True
 
